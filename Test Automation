@@ -1,0 +1,61 @@
+Test Automation Framework Manual
+
+
+1.	Framework Overview	3
+1.1.	Technology landscape	3
+1.2.	Test design	5
+1.3.	Test execution	6
+1.4.	Test reporting	6
+2.	Getting started with the Test Harness	9
+2.1.	Test Harness solution overview	9
+2.2.	Test Harness Build Process	10
+3.	New Automation Project setup and integration	14
+3.1.	Setting up new Project	14
+3.2.	Using Test Harness Features	15
+3.3.	Test design and data management	17
+3.4.	Project Build Process	21
+3.5.	Local test execution	28
+4.	Integration with APPD scheduled deployment process	30
+4.1.	Prerequisites	30
+4.2.	APPD-Jenkins API based integration	30
+
+
+
+
+1.	Framework Overview
+1.1.	Technology landscape
+Test automation framework is comprised of 2 key components:
+•	Test Harness that accommodates all necessary cross project features and technologies
+•	Infrastructure and tools that facilitate scalable, distributed and reliable test execution and reporting.
+Test Harness is a technology solution that accommodates essential features needed for both PSO and R&D served projects. Test Harness has been built with the following common goals in mind:
+•	Equip both technical and non-technical people with straightforward tool for test design, test data management, test execution and reporting
+•	Design and implement reusable and low maintenance framework with essential features and infrastructure to be reused across all PSO and R&D projects
+•	Incorporate test automation into automated build-deploy process to enable continuous assessment of build quality
+The Harness leverages a number of open source technologies and custom source code. It is based on Java language, open source technology stack and open industry standards such as xUnit, XML, JSON, Selenium, REST WS, SOAP WS, JDBC, pdfBox and others. The table below outlines the technology stack which is currently in use.
+______
+
+Following distributed model, Test Harness is deployed on dedicated Automation Server with all needed tools and technologies in place. Client machines will receive a latest copy of Test Harness JAR file along with latest or specific version of anticipated project JAR file through Central automation distribution process. Client machine will execute the tests in accordance with Central automation server job definition. 
+The automation server will coordinate both on-demand jobs and jobs scheduled via iPipeline’s build-deploy process (APPD). Further we plan to equip Test automation server with Jenkins CI in order to achieve scalable execution and reporting.
+
+
+
+1.1.	Test design
+Test automation Harness provides the following approaches of test design and execution:
+•	Data-driven - Excel/CSV (e.g. PS BRD files or test matrixes)
+•	Behavior/keyword-driven - User story keyword based testing
+•	Hybrid - Excel based parameterized Data/Behavior/Keyword-driven approach
+For example: keyword “Build an XML 10X Acord file with all test data from column C”
+Test designer can come up with best fit approach for their current needs and then design test and data accordingly. Pure Behavior-driven (BDD) works better for testing new functionality and may serve as a basis for acceptance testing of a User story. Data-driven and hybrid approaches serve better for regression testing and when massive amount of data/fields involved in testing.
+The following example is a Hybrid meta data-driven approach design that is being used on CRM project:
+
+
+1.1.	Test execution 
+Test execution will be flexible and configurable through Context Manger component of Test Harness. The context will specify environments, test suites for execution, test data and other variables. The following types of execution will be available:
+•	On demand locally
+•	On demand remotely via Maven and scripting on Test automation server
+•	On demand remotely via Jenkins dedicated automation server
+•	Scheduled/triggered execution initiated from Build-deploy or and CI server.
+
+1.2.	Test reporting
+Thucydidies library was integrated into the Harness in order to facilitate consistent and transparent test reporting across all types of test design approaches and projects.
+Web based report is generated at the end of each execution cycle (test set execution) and accomodates full traceability for BDD and data-driven types of tests.
