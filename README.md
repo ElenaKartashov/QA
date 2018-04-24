@@ -49,7 +49,7 @@ Intelij IDEA (Python plugin)
 
 
 Integration and execution from CI
-Open Source + JPMC already has license version
+Open Source + company already has license version
 Jenkins
 CI, test execution planning
 OpenSource
