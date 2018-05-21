@@ -1,0 +1,5 @@
+url = sys.argv[1]
+#url = ("https://"+url+"/ps/landing/login.aspx")
+
+ps_version = sys.argv[2]
+# ps_version = 8.3
