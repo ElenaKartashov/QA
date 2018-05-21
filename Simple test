@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import pytest
+import pandas as pd
+from selenium.webdriver.support.ui import Select
+import os
+import datetime
+import sys
+import urlparse
+import pandas
+from modules.HTMLTestRunner import HTMLTestRunner
+import unittest
+from modules.images.Images import *
+import json
+from modules.webutilites.WebUtilities import *
+
+#url = sys.argv[1]
+#base_url = ("https://"+url+"/ps/landing/login.aspx")
+print base_url
+
+driver = webdriver.Chrome(".\chromedriver")
+
+
+#
+class SmokeTestSuite(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Chrome(".\chromedriver")
+        self.driver.implicitly_wait(10)
+        driver = self.driver
+        driver.get(base_url)
+        driver.maximize_window()
+        username = driver.find_element_by_id("Username")
+        password = driver.find_element_by_id("Password")
+        username.send_keys("company.QA@company.com")
+        password.send_keys("justapass")
+        driver.find_element_by_name("btnLogin").click()
+        driver.set_page_load_timeout(20)
+        driver.find_element_by_id("ps").click()
+        driver.find_element_by_id("ctl00_ctl02_ctl01_productSelector_dropDown").click()
+        Select(driver.find_element_by_id("ctl00_ctl02_ctl01_productSelector_dropDown")).select_by_visible_text(
+                'Program QA')
+
+
+
+    def test_login_to_app(self):
+        driver = self.driver
+        self.assertEqual("PAGE - To Do", driver.title)
+        print ("Page title verified" + driver.title)
+        print ("Login")
+
+
+
+    def test_select_product_drop_down_verification(self):
+        driver = self.driver
+
+
+    def test_task_menu_verification(self):
+        #this test checking that the each section of the left side menu are presented
+        driver = self.driver
+        driver.set_page_load_timeout(10)
+        driver.find_element_by_link_text("Tasks").click()
+        # submenu for "Tasks"
+        driver.find_element_by_id("Active").click()
+        driver.find_element_by_id("Future").click()
+        driver.find_element_by_id("Completed").click()
+        driver.save_screenshot(".\FOLDER\Screenshots\landing_page.png")
+        print ("Task")
+
+
+    def tearDown(self):
+     print ("Done")
+     driver = self.driver
+     driver.quit()
+
+driver.quit()
+#
+
+
+def TestRunner(base_url):
+    print base_url
+
+    suite = unittest.TestSuite()
+    ##Add additional test suites as classes here:
+    suite.addTests([
+        unittest.defaultTestLoader.loadTestsFromTestCase(SmokeTestSuite)
+    ])
+
+    # Invoke TestRunner
+    dir = os.getcwd()
+    now = datetime.datetime.now()
+    fp = file('./FOLDER NAME/Reports/Full-Smoke-Test-' + str(now.strftime("%B-%d-%Y %H-%M")) + '.html', 'wb')
+    #       Please specified the PATH to the report folder and name of the report
+    # runner = unittest.TextTestRunner(buf)       #DEBUG: this is the unittest baseline
+    runner = HTMLTestRunner(
+        stream=fp,
+        title='   Smoke-Test  ' + base_url,
+        verbosity=0,
+        description='  Test Suite '
+    )
+
+    runner.run(suite)
+
+TestRunner(base_url)
+
